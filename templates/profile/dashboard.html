@@ -1,0 +1,74 @@
+{% extends 'layout/base.html' %}
+
+
+{% block css %}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row my-5">
+        <div class="col-md-3">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Dashboard</h1>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>My Campaigns</h3>
+                        <a href="{% url 'campaigns' %}" class="btn btn-primary">View Campaign</a>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>My Profile</h3>
+                        <a href="{% url 'view_profile' %}" class="btn btn-primary">View Profile</a>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Leads</h3>
+                        <a href="#" class="btn btn-primary">View Leads</a>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">New Campaign</h3>
+                            <p class="card-text">Create a new campaign</p>
+                            <a href="{% url 'create_campaign' %}" class="btn btn-primary">Create</a>
+                        </div>
+                    </div>
+                </div>
+                {% for camp in campaigns %}
+                <div class="col-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{{camp.image.url}}" alt="Card image cap">
+                        <div class="card-body">
+                            <h3 class="card-title">{{camp.name}}</h3>
+                            <p class="card-text">{{camp.description}}</p>
+                            <!-- actions -->
+                            <a href="{% url 'campaign_detail' camp.slug %}" class="btn btn-primary">View</a>
+                            <a href="{% url 'campaign_edit' camp.slug %}" class="btn btn-primary">Edit</a>
+                            <a href="{% url 'campaign_delete' camp.slug %}" class="btn btn-primary">Delete</a>
+                            <a href="#" class="btn btn-info">Share</a>
+
+                        </div>
+                        
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}{% endblock %}

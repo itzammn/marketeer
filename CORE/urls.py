@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('campaigns/', include('Campaigns.urls')),
+    path('profile/', include('Profile.urls')),
     path('', include('app.urls')),
 ]
 # debug mode for media and static files

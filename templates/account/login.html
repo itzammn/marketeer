@@ -1,0 +1,35 @@
+{% extends "layout/base.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load django_bootstrap5 %}
+{% block content %}
+<div class="container vh-100">
+    <div class="row justify-content-center align-items-center" style="height: 90vh;">
+        <div class="col-md-4 my-5 card p-5">
+            <form class="login card-body" method="POST" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                {% bootstrap_form form layout='floating' %}
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                {% bootstrap_button button_type="submit" content="Login" %}
+            </form>
+            <a class="button nav-link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
+            <a href="{% provider_login_url "github" %}">Login via Github</a>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block css %}
+    <style>
+        body{
+            background-color: dimgrey;
+        }
+    </style>
+{% endblock css %}
+    

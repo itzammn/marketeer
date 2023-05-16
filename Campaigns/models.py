@@ -38,4 +38,14 @@ class Lead(models.Model):
     def __str__(self):
         return self.email
 
+class LeadConversion(models.Model):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    converted = models.BooleanField(default=False)
+    converted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.lead.email
+    
+    
+
 

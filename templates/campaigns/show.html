@@ -1,17 +1,118 @@
 {% extends 'layout/base.html' %}
 {% load static %}
 {% load django_bootstrap5 %}
-{% block css %}{% endblock %}
+{% block css %}
+<style>
+    .image-bg {
+        background-image: url("{{camp.image.url}}");
+        background-size: cover;
+        aspect-ratio: 3/1;
+    }
+</style>
+{% endblock %}
 {% block content %}
 <div class="container-fluid">
-    <div class="row my-5">
+    <div class="row my-3">
         <div class="col-md-8 mx-auto">
-            <form method="POST" enctype="multipart/form-data">
-            </form>
+            <div class="p-5 mb-4 bg-light rounded-3 image-bg">
+                <div class="container-fluid py-5">
+                    <h1 class="display-5 fw-bold">{{camp.name}}</h1>
+                    <p class="col-md-8 fs-4">{{camp.description}}</p>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="row mb-3">
+        <div class="col-md-8 mx-auto card">
+            <h3 class="text-center">Tracked Lead</h3>
+            <div class="table-responsive-lg card-body">
+                <table class="table
+            table-hover	
+            table-borderless    
+            align-middle">
+                    <thead class="table-light">
+                        <caption>Leads Data</caption>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+
+                        {% for lead in leads %}
+                        <tr class="table-primary">
+                            <td scope="row">{{lead.id}}</td>
+                            <td>{{lead.name}}</td>
+                            <td>{{lead.email}}</td>
+                            <td>{{lead.created_at.date}}</td>
+                            <td><a href="{% url 'lead_details' camp.slug lead.id %}" class="btn btn-primary">View</a></td>
+                        </tr>
+                        {% empty %}
+                        <tr class="table-primary">
+                            <td scope="row">No Lead Yet</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-8 mx-auto card">
+            <h3 class="text-center">Lead Conversion Status</h3>
+            <div class="table-responsive-lg card-body">
+                <table class="table
+            table-hover	
+            table-borderless    
+            align-middle">
+                    <thead class="table-light">
+                        <caption>Conversion Status</caption>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Converted</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+
+                        {% for lc in lead_conversion %}
+                        <tr class="table-primary">
+                            <td scope="row">{{lc.id}}</td>
+                            <td>{{lc.lead.name}}</td>
+                            <td>{{lc.lead.email}}</td>
+                            <td>{{lc.converted}}</td>
+                            <td>{{lc.converted_at}}</td>
+                        </tr>
+                        {% empty %}
+                        <tr class="table-primary">
+                            <td scope="row">No Lead Yet</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-8 mx-auto card">
+            <div class="card-body">
+                {{line_graph|safe}}
+            </div>
+        </div>
+    </div>
+   
 </div>
 
 {% endblock %}
 {% block js %}{% endblock %}
-    

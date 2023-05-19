@@ -1,7 +1,12 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
+class Gender(models.TextChoices):
+    MALE = "male", _("Male")
+    FEMALE = "female", _("Female")
+    OTHER = "other", _("Other")
 
 class Campaign(models.Model):
     name = models.CharField(max_length=255)
@@ -25,7 +30,6 @@ class Campaign(models.Model):
     def __str__(self):
         return self.name
 
-
 class Lead(models.Model):
     email = models.EmailField()
     name = models.CharField(max_length=255)
@@ -46,6 +50,31 @@ class LeadConversion(models.Model):
     def __str__(self):
         return self.lead.email
     
+class CampaignLandingPage(models.Model):
+    campaign = models.OneToOneField(Campaign, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(upload_to='landing_page_images', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title    
+    
+class Subscriber(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    city = models.CharField(max_length=255) 
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    gender = models.CharField(max_length=10, choices=Gender.choices, default=Gender.FEMALE)
+    class Meta:
+        unique_together = ['email', 'campaign']
+        
+    def __str__(self):
+        return self.email
     
 
 

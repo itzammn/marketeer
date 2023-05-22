@@ -50,7 +50,12 @@
                 {% for camp in campaigns %}
                 <div class="col-4">
                     <div class="card">
+                        {% if camp.image %}
                         <img class="card-img-top" src="{{camp.image.url}}" alt="Card image cap">
+                        {% else %}
+                        <img class="card-img-top" src="" alt="Card image cap">
+                        {% endif %}
+                        
                         <div class="card-body">
                             <h3 class="card-title">{{camp.name}}</h3>
                             <p class="card-text">{{camp.description}}</p>

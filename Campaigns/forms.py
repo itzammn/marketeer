@@ -1,5 +1,5 @@
 from django import forms
-from .models import Campaign, Lead
+from .models import Campaign, Lead, Subscriber, CampaignLandingPage
 
 
 class CampaignForm(forms.ModelForm):
@@ -16,5 +16,16 @@ class LeadForm(forms.ModelForm):
     class Meta:
         model = Lead
         fields = ['name', 'email', 'campaign']
+
+class SubscriberForm(forms.ModelForm):
+    class Meta:
+        model = Subscriber
+        fields = ['first_name', 'last_name', 'email', 'phone', 'city','gender']
+
+class CampaignLandingPageForm(forms.ModelForm):
+    class Meta:
+        model = CampaignLandingPage
+        fields = ['title', 'description', 'image']
+    
 
     

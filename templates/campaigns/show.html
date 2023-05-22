@@ -12,6 +12,27 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
+    {% if has_landing_page %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-grid gap-2">
+                <a href="{% url 'edit_campaign_landing' camp.slug %}" class="btn btn-light btn-lg my-3">
+                    <div class="display-5">Edit Landing Page</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-grid gap-2">
+                <a href="{% url 'create_campaign_landing' camp.slug %}" class="btn btn-light btn-lg my-3">
+                    <div class="display-5">Create Landing Page</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="row my-3">
         <div class="col-md-8 mx-auto">
             <div class="p-5 mb-4 bg-light rounded-3 image-bg">
@@ -22,6 +43,7 @@
             </div>
         </div>
     </div>
+    
     <div class="row mb-3">
         <div class="col-md-8 mx-auto card">
             <h3 class="text-center">Tracked Lead</h3>
@@ -52,7 +74,7 @@
                         </tr>
                         {% empty %}
                         <tr class="table-primary">
-                            <td scope="row">No Lead Yet</td>
+                            <td colspan="5" scope="row">No Lead Yet</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -93,7 +115,7 @@
                         </tr>
                         {% empty %}
                         <tr class="table-primary">
-                            <td scope="row">No Lead Yet</td>
+                            <td scope="row" colspan="5">No Lead Yet</td>
                         </tr>
                         {% endfor %}
                     </tbody>

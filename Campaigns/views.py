@@ -124,25 +124,30 @@ def clicked_campaign(request, slug):
     # show campaign landing data
     try:
         Lead.objects.create(email=request.user.email, name=request.user.username, campaign=cam)
-        landing_page = CampaignLandingPage.objects.get(campaign=cam)
-        # send subscriber form
-        if request.method == 'POST':
-            form = SubscriberForm(request.POST)
-            if form.is_valid():
-                subs= form.save(commit=False)
-                subs.campaign = cam
-                subs.save()
-                # make it a lead conversion
-                LeadConversion.objects.create(lead=Lead.objects.get(email=subs.email), converted=True)
-                messages.success(request,"Your details have been submitted successfully")
-                return redirect('clicked_campaign', slug=slug)
-        else:
-            form = SubscriberForm()
-        ctx = {'landing_page':landing_page}
-        return render(request,"campaigns/clicked_campaign.html", ctx)
     except:
-        messages.error(request,"Campaign landing page not found")
-        return redirect('landing')
+        print('Lead already exists')
+    landing_page = CampaignLandingPage.objects.get(campaign=cam)
+    # send subscriber form
+    if request.method == 'POST':
+        form = SubscriberForm(request.POST)
+        if form.is_valid():
+            subs= form.save(commit=False)
+            subs.campaign = cam
+            subs.save()
+            # get lead from email and campaign
+            lead = Lead.objects.filter(email=request.user.email, campaign=cam).first()
+            print(lead)
+            LeadConversion.objects.create(lead=lead, campaign=cam, converted=True)
+            messages.success(request,"Your details have been submitted successfully")
+            return redirect('clicked_campaign', slug=slug)
+    else:
+        form = SubscriberForm()
+    ctx = {'landing_page':landing_page, 'form':form, 'cam':cam}
+    return render(request,"campaigns/clicked_campaign.html", ctx)
+    
+        # print(e)
+        # messages.error(request,"Campaign landing page not found")
+        # return redirect('landing')
     
 
 @login_required

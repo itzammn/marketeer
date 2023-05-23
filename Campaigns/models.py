@@ -36,14 +36,13 @@ class Lead(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ['email', 'campaign']
 
     def __str__(self):
         return self.email
 
 class LeadConversion(models.Model):
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
     converted = models.BooleanField(default=False)
     converted_at = models.DateTimeField(auto_now_add=True)
 
@@ -70,8 +69,7 @@ class Subscriber(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     gender = models.CharField(max_length=10, choices=Gender.choices, default=Gender.FEMALE)
-    class Meta:
-        unique_together = ['email', 'campaign']
+
         
     def __str__(self):
         return self.email

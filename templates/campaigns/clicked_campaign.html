@@ -3,18 +3,34 @@
 {% load django_bootstrap5 %}
 {% block css %}
 <style>
-    .image-bg {
-        background-image: url("{{camp.image.url}}");
+    body{
+        background-image: url("{{landing_page.image.url}}");
         background-size: cover;
-        aspect-ratio: 3/1;
     }
 </style>
 {% endblock %}
 {% block content %}
-<div class="container-fluid">
+<div class="container">
     <div class="row my-5">
-        <div class="col-md-8 mx-auto">
-
+        <div class="p-5 mb-4 bg-light rounded-3 image-bg">
+            <div class="container-fluid py-5">
+              <h1 class="display-5 fw-bold">{{cam.name}}</h1>
+              <p class="col-md-8 fs-4">
+                {{cam.description}}
+              </p>
+            </div>
+          </div>
+        <div class="col-md-6 mx-auto">
+            {{landing_page.description | safe }}
+        </div>
+        <div class="col-md-6 mx-auto">
+            <form method="POST" enctype="multipart/form-data">
+                <h1>Contact us for {{cam.name}} </h1>
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% bootstrap_button button_type="submit" content="OK" %}
+                {% bootstrap_button button_type="reset" content="Cancel" %}
+            </form>
         </div>
     </div>
 </div>

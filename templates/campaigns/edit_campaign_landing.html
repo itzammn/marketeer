@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block css %}{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 mb-2">
+        <div class="col-md-12">
+            <div class="display-5">
+                <img src="{{camp.image.url}}" class="img-fluid" alt="">
+                <p class="text-center">
+                    {{camp.name}}
+                </p>
+                <p class="text-muted text-center">
+                    {{camp.description}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <form method="POST" enctype="multipart/form-data">
+                <h1>Create your Landing Page</h1>
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% bootstrap_button button_type="submit" content="OK" %}
+                {% bootstrap_button button_type="reset" content="Cancel" %}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}{% endblock %}
+    
